@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Http\Livewire\App\{{ class }};
+
+use App\Models\{{ class }};
+use Flasher\Laravel\Facade\Flasher;
+use Livewire\Component;
+
+class {{ class }}New extends Component
+{
+    public {{ class }} ${{ model }};
+
+    protected $rules = [
+        {{ validation_rules }}
+    ];
+
+    public function boot() {
+        $this->{{ model }} = new {{ class }}();
+    }
+
+    public function updated($property) {
+        $this->validateOnly($property);
+    }
+
+    public function render()
+    {
+        return view('livewire.app.{{ model_kebab }}.{{ model_kebab }}-new');
+    }
+
+    public function closeModal() {
+        $this->emit('close{{ class }}NewModal');
+    }
+
+    public function save() {
+        $this->validate();
+        try {
+            $this->{{ model }}->save();
+            $this->{{ model }} = new {{ class }}();
+            Flasher::addSuccess("{{ class }} enregistré avec succès !");
+            $this->closeModal();
+        } catch (\Throwable $th) {
+            Flasher::addError($th->getMessage());
+            Flasher::addError("Erreur lors de l'enregistrement !");
+        }
+    }
+}

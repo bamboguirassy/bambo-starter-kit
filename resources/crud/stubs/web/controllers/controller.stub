@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Custom\BreadcrumbItem;
+use App\Models\{{ class }};
+
+class {{ class }}Controller extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $pageTitle = "Liste des {{ model }}s";
+        $breadcrumbItems = [
+            new BreadcrumbItem('Liste des {{ model }}s'),
+        ];
+        return view('app.{{ model_lower }}.index',compact('pageTitle','breadcrumbItems'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\{{ class }}  ${{ model }}
+     * @return \Illuminate\Http\Response
+     */
+    public function show({{ class }} ${{ model }})
+    {
+        $pageTitle = "Détails {{ model }}";
+        $breadcrumbItems = [
+            new BreadcrumbItem('Liste des {{ model }}s',route('app.{{ model_lower }}.index')),
+            new BreadcrumbItem('Détails {{ model }}'),
+        ];
+        return view('app.{{ model_lower }}.show',compact('{{ model }}','pageTitle','breadcrumbItems'));
+    }
+}

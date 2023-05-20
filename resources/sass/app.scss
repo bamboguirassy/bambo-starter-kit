@@ -1,0 +1,28 @@
+// Fonts
+@import url("https://fonts.bunny.net/css?family=Nunito");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+// @import 'bootstrap/scss/bootstrap';
+@import "ant-design-vue/dist/antd.css";
+
+.nowrap {
+    white-space: nowrap;
+}
+// .table-responsive {
+//     overflow: auto;
+// }
+.text-white {
+    color: white !important;
+}
+// .fixed-col {
+//     position: absolute;
+//     left: 0;
+//     top: auto;
+//     width: 4rem;
+// }
+body {
+    background-color: #F3F2EF;
+}

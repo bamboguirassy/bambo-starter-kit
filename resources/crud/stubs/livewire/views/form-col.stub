@@ -1,0 +1,13 @@
+<div class="col-12 col-md-6">
+    <div class="mb-3">
+        <label for="{{ attribute }}" class="form-label">{{ attribute_label }}</label>
+        <input wire:model.lazy="{{ model }}.{{ attribute }}" wire:dirty.class.remove="is-valid" type="{{ attribute_type }}"
+                    class="form-control @error('{{ model }}.{{ attribute }}') is-invalid @elseif(${{ model }}->{{ attribute }}!=null) is-valid @enderror" name="{{ attribute }}"
+                    id="{{ attribute }}" placeholder="{{ attribute_label }}">
+        @error('{{ model }}.{{ attribute }}')
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+        @enderror
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Http\Livewire\App\{{ class }};
+
+use App\Models\{{ class }};
+use Flasher\Laravel\Facade\Flasher;
+use Livewire\Component;
+
+class {{ class }}Edit extends Component
+{
+    protected $listeners = ['open{{ class }}EditModal'=>'load{{ class }}'];
+    
+    public {{ class }} ${{ model }};
+
+    protected $rules = [
+        {{ validation_rules }}
+    ];
+
+    public function updated($property) {
+        $this->validateOnly($property);
+    }
+
+    public function boot() {
+        $this->{{ model }} = new {{ class }}();
+    }
+    
+    public function render()
+    {
+        return view('livewire.app.{{ model_kebab }}.{{ model_kebab }}-edit');
+    }
+
+    public function closeModal() {
+        $this->emit('close{{ class }}EditModal');
+    }
+
+    public function load{{ class }}({{ class }} ${{ model }}) {
+        $this->{{ model }} = ${{ model }};
+    }
+
+    public function update() {
+        $this->validate();
+        try {
+            $this->{{ model }}->updateOrFail();
+            Flasher::addSuccess("{{ class }} mis à jour avec succès !");
+            $this->closeModal();
+        } catch (\Throwable $th) {
+            Flasher::addError($th->getMessage());
+            Flasher::addError("Erreur lors de la mise à jour !");
+        }
+    }
+}

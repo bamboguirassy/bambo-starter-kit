@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Http\Livewire\App\{{ class }};
+
+use App\Models\{{ class }};
+use Flasher\Laravel\Facade\Flasher;
+use Livewire\Component;
+use Livewire\WithPagination;
+
+class {{ class }}List extends Component
+{
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
+    public $paginationLength = 15;
+    public $filterText;
+
+    public function updatedPaginationLength() {
+        $this->resetPage();
+    }
+
+    public function updatedFilterText() {
+        $this->resetPage();
+    }
+
+    public {{ class }} $selected{{ class }};
+
+    protected $listeners = [
+        'sweetalertConfirmed'=>'confirmDelete',
+        'close{{ class }}EditModal'=>'render',
+        'close{{ class }}NewModal'=>'render'
+    ];
+
+    public function render()
+    {
+        ${{ model }}Query = {{ class }}::orderBy('id','asc');
+        if($this->filterText) {
+           ${{ model }}Query = ${{ model }}Query->where('id','like',"%$this->filterText%");
+        }
+        return view('livewire.app.{{ model_kebab }}.{{ model_kebab }}-list',['{{ model }}s'=>${{ model }}Query->paginate($this->paginationLength)]);
+    }
+
+    public function openEditModal(${{ model }}Id) {
+        $this->emit('open{{ class }}EditModal',${{ model }}Id);
+    }
+
+    public function tryDelete({{ class }} ${{ model }}) {
+        $this->selected{{ class }} = ${{ model }};
+        sweetalert()->showDenyButton()->addInfo("Êtes-vous sûr de vouloir supprimer cet élément ?");
+    }
+
+    public function confirmDelete() {
+        try {
+            $this->selected{{ class }}->deleteOrFail();
+            Flasher::addSuccess("{{ class }} supprimé avec succès !");
+        } catch (\Throwable $th) {
+            Flasher::addError($th->getMessage());
+            Flasher::addError("Erreur survenue lors de la suppression !");
+        }
+    }
+}

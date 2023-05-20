@@ -1,0 +1,88 @@
+<section class="section">
+    <div class="row">
+    @creable('{{ model_lower }}')
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body py-3 d-flex justify-content-center">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-{{ $primary_color }} btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#new{{ class }}Modal">
+                        Nouveau <i class="fas fa-plus-circle fa-sm fa-fw"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endcreable
+    @listable('{{ model_lower }}')
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Liste des {{ model }}s</h4>
+                    @livewire('app.{{ model_kebab }}.{{ model_kebab }}-list')
+                </div>
+            </div>
+        </div>
+    </div>
+    @endlistable
+</section>
+
+@creable('{{ model_lower }}')
+<!--new {{ model }} Modal -->
+<div class="modal fade" id="new{{ class }}Modal" tabindex="-1" role="dialog" aria-labelledby="{{ model }}ModalTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-{{ $primary_color }}">
+                <h5 class="modal-title text-white" id="{{ model }}ModalTitleId">Nouveau {{ model }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body">
+                @livewire('app.{{ model_kebab }}.{{ model_kebab }}-new')
+            </div>
+        </div>
+    </div>
+</div>
+@endcreable
+
+@editable('{{ model_lower }}')
+<!--edit {{ model }} Modal -->
+<div class="modal fade" id="edit{{ class }}Modal" tabindex="-1" role="dialog" aria-labelledby="{{ model }}EditModalTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-{{ $primary_color }}">
+                <h5 class="modal-title text-white" id="{{ model }}EditModalTitleId">Modification {{ model }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body">
+                @livewire('app.{{ model_kebab }}.{{ model_kebab }}-edit')
+            </div>
+        </div>
+    </div>
+</div>
+@endeditable
+
+@push('scripts')
+    <script>
+    @creable('{{ model_lower }}')
+        Livewire.on('close{{ class }}NewModal', () => {
+            var newModalEl = document.getElementById('new{{ class }}Modal')
+            var modal = bootstrap.Modal.getInstance(newModalEl);
+            modal.hide();
+        })
+    @endcreable
+    @editable('{{ model_lower }}')
+        Livewire.on('open{{ class }}EditModal', ({{ model }}Id) => {
+            var myModal = new bootstrap.Modal(document.getElementById('edit{{ class }}Modal'), {
+                backdrop: false
+            })
+            myModal.show();
+        })
+        Livewire.on('close{{ class }}EditModal', () => {
+            var newModalEl = document.getElementById('edit{{ class }}Modal')
+            var modal = bootstrap.Modal.getInstance(newModalEl);
+            modal.hide();
+        })
+    @endeditable
+    </script>
+@endpush

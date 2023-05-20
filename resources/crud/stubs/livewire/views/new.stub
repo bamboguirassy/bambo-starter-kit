@@ -1,0 +1,21 @@
+<form method="post" wire:submit.prevent="save">
+    <div class="row">
+        <div class="col-12">
+            @if ($errors->all())
+                <ul class="h6">
+                    @foreach ($errors->all() as $error)
+                        <li class="text-danger font-bold">{{$error}}</li>
+                    @endforeach
+                </ul>
+                <hr>
+            @endif
+        </div>
+        {{ form_cols }}
+        <div class="col-12">
+            <div class="modal-footer d-flex justify-content-between">
+                <button wire:click="closeModal" type="button" class="btn btn-lg btn-secondary">Annuler</button>
+                <button type="submit" class="btn btn-lg btn-{{ $primary_color }}">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+</form>

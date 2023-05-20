@@ -1,0 +1,4 @@
+// {{ model }} routes
+Route::resource('{{ model_lower }}', {{ class }}Controller::class,[
+    'only'=>['index','show']
+]);

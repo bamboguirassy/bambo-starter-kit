@@ -1,0 +1,43 @@
+@extends('layouts.app')
+
+@section('title',$pageTitle)
+
+@section('content')
+    <section class="section">
+        @livewire('app.{{ model_kebab }}.{{ model_kebab }}-show',compact('{{ model }}'))
+    </section>
+    @editable('{{ model_lower }}')
+    <!--edit {{ model }} Modal -->
+    <div class="modal fade" id="edit{{ class }}Modal" tabindex="-1" role="dialog" aria-labelledby="{{ model }}EditModalTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-{{ $primary_color }}">
+                    <h5 class="modal-title text-white" id="{{ model }}EditModalTitleId">Modification {{ model }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body">
+                    @livewire('app.{{ model_kebab }}.{{ model_kebab }}-edit')
+                </div>
+            </div>
+        </div>
+    </div>
+    @endeditable
+    @push('scripts')
+        <script>
+        @editable('{{ model_lower }}')
+            Livewire.on('open{{ class }}EditModal', ({{ model }}Id) => {
+                var myModal = new bootstrap.Modal(document.getElementById('edit{{ class }}Modal'), {
+                    backdrop: false
+                })
+                myModal.show();
+            })
+            Livewire.on('close{{ class }}EditModal', () => {
+                var newModalEl = document.getElementById('edit{{ class }}Modal')
+                var modal = bootstrap.Modal.getInstance(newModalEl);
+                modal.hide();
+            })
+        @endeditable
+        </script>
+    @endpush
+@endsection

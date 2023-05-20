@@ -1,0 +1,37 @@
+<section class="search-bar">
+    <div class="global-search-wrapper d-inline mr-0" style="width: 400px">
+        <a-auto-complete v-model:value="searchText" :dropdown-match-select-width="252" style="width: 300px"
+            class="form-control" :options="employes" @search="handleSearch">
+            <template #option="employe">
+                <a :href="`/employe/${employe.id}`">
+                    <div class="card">
+                        <div class="card-body pb-1">
+                            <div class="row">
+                                <div class="col-3 d-flex align-items-center justify-content-center">
+                                    <img :src="`https://ui-avatars.com/api/?name=${employe.name}&background=random`"
+                                        alt="">
+                                </div>
+                                <div class="col-9">
+                                    <h4 class="card-title my-0 py-0">
+                                        {{ employe.name }}
+                                    </h4>
+                                    <hr class="my-0">
+                                    <p class="card-text my-0">Identifiant</p>
+                                    <span v-if="employe.etat" class="badge bg-success">Actif</span>
+                                    <span v-else class="badge bg-danger">Inactif</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </template>
+            <div class="input-group">
+                <input type="text" class="form-control" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default" placeholder="Rechercher une ressource">
+                <span class="input-group-text" id="inputGroup-sizing-default">
+                    <i class="fas fa-search fa-sm fa-fw"></i>
+                </span>
+            </div>
+        </a-auto-complete>
+    </div>
+</section>
